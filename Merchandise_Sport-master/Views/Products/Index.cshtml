@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Merchandise_Sport_master.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_ProductLayout ";
+
+}
+
+<h1>
+    Our Products
+</h1>
+
+@if (Context.User.IsInRole("Admin"))
+{
+    <a asp-action="Create">Create</a>
+}
+<form asp-action="Search">
+    <input name="query" placeholder="Enter product to search" />
+    <input type="submit" value="Search" class="btn btn-primary" />
+
+</form>
+
+<div class="container">
+    <div class="row" id="tab">
+
+
+        @foreach (var item in Model)
+        {
+        <div class="card" style="width: 18rem; min-height: 550px;">
+
+            <img src="@item.Image" class="card-img-top" style="width: 100%; height: 20vw; object-fit: contain;" alt="no">
+
+            <div class="card-body">
+                <h5 class="card-title">@item.Title</h5>
+                <p class="card-text">Price - @item.Price $</p>
+                
+                <a asp-controller="ShopCarts" asp-action="Create" class="btn btn-primary">Add To Cart</a>
+            </div>
+
+            @if (Context.User.IsInRole("Admin"))
+            {
+                <p>
+                    <a asp-action="Edit" asp-route-id="@item.SerialNumber">Edit   </a> |
+                    <a asp-action="Details" asp-route-id="@item.SerialNumber">Details   </a> |
+                    <a asp-action="Delete" asp-route-id="@item.SerialNumber">Delete   </a>  |
+
+                </p>
+            }
+        </div>
+        }
+    </div>
+</div>
